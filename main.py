@@ -4,7 +4,6 @@ import os
 
 def main(page):
     url = ft.TextField(label="url",
-                      placeholder="url",
                       autofocus=True)
     submit = ft.ElevatedButton("Descargar")
 
@@ -15,11 +14,12 @@ def main(page):
         video.download(output_path=current_folder)
 
 
-    submit.on_click(btn_click)
+    submit.on_click=btn_click
 
     page.add(
         url,
         submit
     )
 
-    ft.app(target=main)
+ft.app(target=main)
+
