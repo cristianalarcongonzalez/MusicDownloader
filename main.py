@@ -2,10 +2,12 @@ import flet as ft
 from pytube import YouTube
 import os
 
-def main(page):
+def main(page :ft.Page):
     url = ft.TextField(label="url",
                       autofocus=True)
     submit = ft.ElevatedButton("Descargar")
+
+    
 
     def btn_click(e):
         current_folder =os.getcwd()
@@ -18,8 +20,18 @@ def main(page):
 
     page.add(
         url,
-        submit
+        submit, 
+        ft.Dropdown(
+            label="Escoja la calidad del video",
+            hint_text="Escoja la calidad del video?",
+            options=[
+                ft.dropdown.Option("Alta Resolucion"),
+                ft.dropdown.Option("Resolucion Media"),
+                ft.dropdown.Option("Baja Resolucion"),
+            ],
+            autofocus=True,        
     )
+)
 
 ft.app(target=main)
 
