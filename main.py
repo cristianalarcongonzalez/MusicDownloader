@@ -1,37 +1,22 @@
-import flet as ft 
+from flask import Flask, render_template, request
 from pytube import YouTube
 import os
 
-def main(page :ft.Page):
-    url = ft.TextField(label="url",
-                      autofocus=True)
-    submit = ft.ElevatedButton("Descargar")
+app = Flask(__name__)
 
-    
-
-    def btn_click(e):
-        current_folder =os.getcwd()
-        yt = YouTube(url.value)
+@app.route('/', methods=['GET', 'POST'])
+def main():
+    if request.method == 'POST':
+        url = request.form['url']
+        quality = request.form['quality']
+        
+        current_folder = os.getcwd()
+        yt = YouTube(url)
         video = yt.streams.get_highest_resolution()
         video.download(output_path=current_folder)
 
+    return render_template('index.html')
 
-    submit.on_click=btn_click
-
-    page.add(
-        url,
-        submit, 
-        ft.Dropdown(
-            label="Escoja la calidad del video",
-            hint_text="Escoja la calidad del video?",
-            options=[
-                ft.dropdown.Option("Alta Resolucion"),
-                ft.dropdown.Option("Resolucion Media"),
-                ft.dropdown.Option("Baja Resolucion"),
-            ],
-            autofocus=True,        
-    )
-)
-
-ft.app(target=main)
+if __name__ == '__main__':
+    app.run(debug=True)
 
